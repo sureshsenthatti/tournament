@@ -48,21 +48,31 @@ function firstround($array_chunk, $players_list) {
 }
 function secondround($player2, $players_list) {
   //echo $player2;
-
+  $flag = 0;
+  $last_player = array();
   $playerslist = array_flip($players_list);
+  $array_chunk = array_chunk($players_list, 2, true);
+  foreach ($array_chunk as $key => $b) {
+    if(count($b) == 1) {
+      $last_player = array_values($b);
+      $flag = 1;
+    }
+  }
   foreach($playerslist as $key => $a) {
     if($player2 == 'S' && $key == 'S') {
-      return $key;
-    }
-    /*else {
-      $lp = @$_SESSION['lastplayer'];
-      if($lp == 'R' && $player2 == 'S') {
-        return $playerslist[$lp];
+      if($flag) {
+        $lp = $last_player[0];
+        if($lp == 'R' && $player2 == 'S') {
+          return $playerslist[$lp];
+        }
+        else {
+          return $playerslist[$player2];
+        }
       }
       else {
-        return $playerslist[$player2];
+        return $key;  
       }      
-    }*/
+    }
   }
   
 }
